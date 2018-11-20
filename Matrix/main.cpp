@@ -37,7 +37,7 @@ int main(int argc, const char * argv[]) {
     vector <double> column;
     //Numbers to be used
     int start, end;
-    double a, n;
+    double factor, n;
     
     /*
      Opening file
@@ -104,7 +104,8 @@ int main(int argc, const char * argv[]) {
     */
     
     //Checking it can be inversable
-    if(matrix.size() == matrix[0].size()){
+    bool valid=matrix.size() == matrix[0].size();
+    if(valid){
         //Making identity matrix to start off inverse
         for(int i = 0; i < matrix.size(); i++){
             for (int j = 0; j < matrix[0].size(); j++){
@@ -120,18 +121,18 @@ int main(int argc, const char * argv[]) {
         }
         
         //Setting constants
-        a = 0;
+        factor = 0;
         n = 0;
         
         for(int i = 0; i < matrix[0].size() ;i++){
             
             //Making diagonal   1,a,b,c...      Showing what happens on first run for brevity
             //                  d,e,f,g...
-            a = matrix[i][i];
+            factor = matrix[i][i];
             for(int j = 0; j < matrix.size(); j++){
                 //Changing matrix and inverse
-                matrix[i][j] = matrix[i][j]/a;
-                inverse[i][j] = inverse[i][j]/a;
+                matrix[i][j] = matrix[i][j]/factor;
+                inverse[i][j] = inverse[i][j]/factor;
             }
             //Zeroing the rest  1,a,b,c...
             //                  0,e,f,g...
@@ -151,6 +152,7 @@ int main(int argc, const char * argv[]) {
         
     }else{
         cout << "Inverse of a non-square matrix can't be found!\n";
+        //No reason to exit program
     }
     
     /*
@@ -176,8 +178,8 @@ int main(int argc, const char * argv[]) {
     //Close file
     output.close();
     
-    //Writing inverse
-    if(outputInv.is_open()){
+    //Writing inverse and making sure it was valid to begin
+    if(outputInv.is_open()&&valid){
         for(int i = 0; i < inverse.size(); i++){
             for(int j = 0; j < inverse[0].size(); j++){
                 //Adding every item
